@@ -7,6 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
 	<link rel="stylesheet" href="/boots.css">
+	<link rel="stylesheet" href="/css.css">
 	<script src="/d3.js"></script>
 </head>
 
@@ -15,65 +16,86 @@
 		<h3>D3 Examples</h3>
 	</div>
 	<div class="row">
-		<div class="col-xs-12">
-			<div>
-				<div class="row">
-					<h4>Rainbow roll</h4>
-					<input type="checkbox" name="rainbow" id="rainbow_check">
-				</div>
-				<div class="row">
-					<div class="col-xs-12">
-						<div class="row">
-							<div class="col-xs-3">
-								<div class="row">
-									Max number
-								</div>
-								<div class="row">
-									<input type="number" id="max" value=30>
-								</div>
+		<div class="col-sm-12">
+			<div class="row">
+				<h4>Rainbow roll</h4>
+				<input type="checkbox" name="rainbow" id="rainbow_check">
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="row">
+								Max number
 							</div>
-							<div class="col-xs-3">
-								<div class="row">
-									Number of rolls
-								</div>
-								<div class="row">
-									<input type="number" id="rolls" value=1000>
-								</div>
+							<div class="row">
+								<input type="number" min="0" id="max" value=30>
 							</div>
-							<div class="col-xs-3">
-								<div class="row">
-									Low threshhold
-								</div>
-								<div class="row">
-									<input type="text" id="low_threshold" value='.02'>
-								</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="row">
+								Number of rolls
 							</div>
-							<div class="col-xs-3">
-								<div class="row">
-									High Threshhold
-								</div>
-								<div class="row">
-									<input type="text" id="high_threshold" value='.02'>
-								</div>
+							<div class="row">
+								<input type="number" min="0" id="rolls" value=1000>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="row">
+								Low threshhold
+							</div>
+							<div class="row">
+								<input type="number" min="0" id="low_threshold" value='.02'>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="row">
+								High Threshhold
+							</div>
+							<div class="row">
+								<input type="number" min="0" id="high_threshold" value='.02'>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<button onclick="roll_dice()">Roll</button>
-				</div>
-				<div class="row">
-					<div class="col">
-						<svg id="roll_chart_svg"></svg>
+			</div>
+			<div class="row">
+				<button onclick="roll_dice()">Roll</button>
+				<div id="avg_line_value"></div>
+			</div>
+			<div class="row">
+				<div class="col-9">
+					<div class="row">
+						<div class="col-9">
+							<svg id="roll_chart_svg"></svg>
+						</div>
+
 
 					</div>
+					<div class="row">
+						<div class="col-sm-12">
+
+							<svg id="line_chart">
+
+							</svg>
+						</div>
+					</div>
+
 				</div>
+				<div class="col-3">
+					<svg id="vertical_bar_chart"></svg>
+				</div>
+				<div class="col-9">
 
 
+				</div>
 			</div>
 
 
+
 		</div>
+
+
 	</div>
 
 	<script src="/js.js"></script>
