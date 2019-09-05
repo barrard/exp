@@ -59,7 +59,7 @@ function roll_dice() {
 	draw_line_chart('line_chart', dataset)
 	draw_vertical_chart('vertical_bar_chart', dataset)
 }
-// setInterval(()=>roll_dice(),2000)
+setTimeout(() => roll_dice(), 0)
 
 function draw_vertical_chart(id, _data) {
 	const w = 200,
@@ -91,16 +91,17 @@ function draw_vertical_chart(id, _data) {
 
 
 	const xValue = d => d.count
-	const yValue = d => innerHeight - d.number
+	const yValue = d => d.number
 
 	let xScale = d3.scaleLinear()
 		.domain([0, d3.max(data, xValue)])
 		.range([0, innerWidth])
-
 	let yScale = d3.scaleLinear()
 		.domain([0, max])
 		.range([0, innerHeight])
+
 	
+
 
 	if (!inner._groups[0][0]) {
 		inner = SVG.append('g')
@@ -128,29 +129,33 @@ function draw_vertical_chart(id, _data) {
 			else
 				return min_max(xValue(d), normal)
 		})
-	let bar_data = inner.selectAll('.bar_data').data(dataset)
+	let bar_data = inner.selectAll('.bar_data')
+		.data(data)//update selection
 
-	let enter_bar_data = bar_data.enter().append('g').attr('class', 'bar_data')
+	let enter_bar_data = bar_data.enter()
+		.append('g')
+		.attr('class', 'bar_data')
 
 	enter_bar_data.append('text').attr('class', 'number_label')
-
-	enter_bar_data.append('text').attr('class', 'value_label')
+	enter_bar_data.append('text').attr('class', 'result_label')
 	bar_data.merge(enter_bar_data).select('.number_label')
-		.attr('x',  innerWidth)
-		.attr('y', (d) => innerHeight - yScale(yValue(d)))
+
+		// .attr('x', innerWidth)
+		// .attr('y', (d) => innerHeight - yScale(yValue(d)))
+		// // .attr('text-anchor', 'middle')
+		// .attr('font-size', 10)
+		// .attr('fill', 'black')
+		// .text((d) => yValue(d))
+
+
+	bar_data.merge(enter_bar_data).select('.result_label')
+		.attr('x', 0)
+		.attr('y', (d, i) => yScale(i)+ 2+((innerHeight / data.length) - padding)/2) 
+		
 		// .attr('text-anchor', 'middle')
 		.attr('font-size', 10)
-		// .text((_, i) => i)
-		.text((d) => d)
-
-
-	bar_data.merge(enter_bar_data).select('.value_label')
-		.attr('x',  0)
-		.attr('y', (d) => innerHeight - yScale(yValue(d)))
-		.attr('text-anchor', 'middle')
-		.attr('font-size', 10)
-		.attr('fill', 'white')
-		.text((_, i) => i)
+		.attr('fill', 'black')
+		.text((d) => yValue(d))
 
 
 	bar_data.exit().remove();
@@ -209,18 +214,19 @@ function add_text(SVG, dataset, yScale) {
 
 	enter_bar_data.append('text').attr('class', 'index_label')
 
-	enter_bar_data.append('text').attr('class', 'value_label')
+	enter_bar_data.append('text').attr('class', 'result_label')
 
 	bar_data.merge(enter_bar_data).select('.index_label')
 		.attr('x', (d, i) => i * (w / dataset.length) + (w / dataset.length - padding) / 2)
-		.attr('y', (d) => h - yScale(d))
+		.attr('y', (d) => h - yScale(d)+10)
+		.attr('fill', 'white')
 		.attr('text-anchor', 'middle')
 		.attr('font-size', 10)
 		// .text((_, i) => i)
 		.text((d) => d)
 
 
-	bar_data.merge(enter_bar_data).select('.value_label')
+	bar_data.merge(enter_bar_data).select('.result_label')
 		.attr('x', (d, i) => i * (w / dataset.length) + (w / dataset.length - padding) / 2)
 		.attr('y', (d) => h)
 		.attr('text-anchor', 'middle')
